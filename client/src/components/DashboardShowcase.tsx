@@ -50,7 +50,7 @@ export default function DashboardShowcase() {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section id="case-study" className="py-20 bg-white">
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">

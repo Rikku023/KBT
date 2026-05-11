@@ -3,7 +3,7 @@ import HeroSection from '@/components/HeroSection';
 import PainPointsSection from '@/components/PainPointsSection';
 import SolutionSection from '@/components/SolutionSection';
 import DashboardShowcase from '@/components/DashboardShowcase';
-import PricingSection from '@/components/PricingSection';
+
 import Footer from '@/components/Footer';
 
 /**
@@ -25,7 +25,7 @@ export default function Home() {
         <PainPointsSection />
         <SolutionSection />
         <DashboardShowcase />
-        <PricingSection />
+
       </main>
 
       <Footer />

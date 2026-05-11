@@ -14,7 +14,6 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Solusi', href: '#solutions' },
-    { label: 'Pricing', href: '#pricing' },
     { label: 'Case Study', href: '#case-study' },
     { label: 'Blog', href: '#blog' },
   ];
