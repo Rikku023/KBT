@@ -2,8 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
-import authRouter from "./routes/auth";
-import { connectToDatabase } from "./db";
+import authRouter from "./routes/auth.js";
+import { connectToDatabase } from "./db.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

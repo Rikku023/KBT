@@ -2,8 +2,8 @@ import express from "express";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { db } from "../db";
-import { sendVerificationEmail } from "../email";
+import { db } from "../db.js";
+import { sendVerificationEmail } from "../email.js";
 import { RegisterInputSchema, LoginInputSchema } from "@shared/auth";
 
 const router = express.Router();
