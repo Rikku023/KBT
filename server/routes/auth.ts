@@ -62,8 +62,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Route: GET /api/auth/verify-email
-router.get("/verify-email", async (req, res) => {
+// Route: GET /api/auth/verify_email
+router.get("/verify_email", async (req, res) => {
   try {
     const { token } = req.query;
 
@@ -86,7 +86,7 @@ router.get("/verify-email", async (req, res) => {
 
     // Redirect user to frontend verification status page
     const appUrl = process.env.APP_URL || "http://localhost:3000";
-    return res.redirect(`${appUrl}/verify-email?status=success`);
+    return res.redirect(`${appUrl}/verify_email?status=success`);
   } catch (error) {
     console.error("Verification error:", error);
     return res.status(500).json({ message: "Terjadi kesalahan pada server." });
