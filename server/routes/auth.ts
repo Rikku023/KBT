@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { db } from "../db.js";
 import { sendVerificationEmail } from "../email.js";
-import { RegisterInputSchema, LoginInputSchema } from "@shared/auth";
+import { RegisterInputSchema, LoginInputSchema } from "../../shared/auth.js";
 
 const router = express.Router();
 
