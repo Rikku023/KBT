@@ -11,6 +11,16 @@ import { ArrowLeft, Loader2, Mail, Lock } from "lucide-react";
 
 export default function Login() {
   const [, setLocation] = useLocation();
+  
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("verified") === "true") {
+      toast.success("Email Anda berhasil diverifikasi! Silakan login.");
+      // Clean up URL query parameters so toast doesn't re-trigger on page refreshes
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",

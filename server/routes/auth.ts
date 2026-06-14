@@ -85,8 +85,10 @@ router.get("/verify_email", async (req, res) => {
     });
 
     // Redirect user to frontend verification status page
-    const appUrl = process.env.APP_URL || "http://localhost:3000";
-    return res.redirect(`${appUrl}/verify_email?status=success`);
+    const appUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : (process.env.APP_URL || "http://localhost:5173");
+    return res.redirect(`${appUrl}/login?verified=true`);
   } catch (error) {
     console.error("Verification error:", error);
     return res.status(500).json({ message: "Terjadi kesalahan pada server." });
