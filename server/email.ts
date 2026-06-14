@@ -1,25 +1,14 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-// Retrieve configuration from process.env with fallbacks
-const host = process.env.EMAIL_HOST || "sandbox.smtp.mailtrap.io";
-const port = parseInt(process.env.EMAIL_PORT || "2525", 10);
-const user = process.env.EMAIL_USER;
-const pass = process.env.EMAIL_PASS;
-const from = process.env.EMAIL_FROM || '"OptimaData Auth" <noreply@optimadata.com>';
-const appUrl = process.env.APP_URL || "http://localhost:3000";
+const apiKey = process.env.RESEND_API_KEY;
 
-// Create transporter only if user and pass are provided
-let transporter: nodemailer.Transporter | null = null;
-if (user && pass) {
-  transporter = nodemailer.createTransport({
-    host,
-    port,
-    auth: {
-      user,
-      pass,
-    },
-  });
-}
+// Construct dynamic appUrl for local and Vercel environments
+const appUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : (process.env.APP_URL || "http://localhost:3000");
+
+// Initialize Resend client only if apiKey is present
+const resend = apiKey ? new Resend(apiKey) : null;
 
 export async function sendVerificationEmail(email: string, name: string, token: string): Promise<string> {
   const verificationLink = `${appUrl}/api/auth/verify-email?token=${token}`;
@@ -39,24 +28,24 @@ export async function sendVerificationEmail(email: string, name: string, token: 
     </div>
   `;
 
-  if (transporter) {
+  if (resend) {
     try {
-      await transporter.sendMail({
-        from,
+      await resend.emails.send({
+        from: "OptimaData <onboarding@resend.dev>",
         to: email,
         subject: "Verifikasi Akun OptimaData Anda",
         text: `Halo ${name},\n\nTerima kasih telah mendaftar di OptimaData. Silakan kunjungi tautan berikut untuk memverifikasi email Anda:\n\n${verificationLink}`,
         html: htmlContent,
       });
-      console.log(`[Email Service] Verification email successfully sent to ${email}`);
+      console.log(`[Email Service] Verification email successfully sent to ${email} via Resend`);
       return verificationLink;
     } catch (error) {
-      console.error("[Email Service] Failed to send email via SMTP:", error);
+      console.error("[Email Service] Failed to send email via Resend:", error);
       console.log(`[Email Service Fallback] Tautan verifikasi untuk ${email}: ${verificationLink}`);
       return verificationLink;
     }
   } else {
-    console.log(`[Email Service Mock] SMTP Credentials not configured.`);
+    console.log(`[Email Service Mock] RESEND_API_KEY is not configured.`);
     console.log(`[Email Service Mock] Tautan verifikasi untuk ${email}: ${verificationLink}`);
     return verificationLink;
   }
