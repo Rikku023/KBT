@@ -1,15 +1,20 @@
-import fs from "fs";
-import path from "path";
 import { fileURLToPath } from "url";
 import { MongoClient, ObjectId } from "mongodb";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = fileURLToPath(new URL(".", import.meta.url)); // Node-compatible way to resolve directory
 
-// Simple env file loader for local development if process.env.MONGODB_URI is not set
-function loadEnv() {
+// Simple env file loader using dynamic imports to prevent Vercel static tracing
+async function loadEnv() {
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    return;
+  }
+  
   try {
+    const fs = await import("fs");
+    const path = await import("path");
     const envPath = path.resolve(__dirname, "..", ".env");
+    
     if (fs.existsSync(envPath)) {
       const content = fs.readFileSync(envPath, "utf-8");
       content.split(/\r?\n/).forEach((line) => {
@@ -29,11 +34,6 @@ function loadEnv() {
   }
 }
 
-// Load environment variables
-loadEnv();
-
-const uri = process.env.MONGODB_URI;
-
 export interface User {
   id: string;
   name: string;
@@ -49,14 +49,18 @@ let cachedClient: MongoClient | null = null;
 let cachedDb: any = null;
 
 export async function connectToDatabase() {
+  // Ensure local env is loaded if running locally
+  await loadEnv();
+
   // Return cached instances if already connected
   if (cachedDb) {
     return cachedDb;
   }
 
+  const uri = process.env.MONGODB_URI;
   if (!uri) {
     throw new Error(
-      "MONGODB_URI is not defined in environment variables. Please check your .env file."
+      "MONGODB_URI is not defined in environment variables. Please check your environment configurations."
     );
   }
 
