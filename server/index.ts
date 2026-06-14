@@ -3,6 +3,7 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRouter from "./routes/auth.js"; // In Node ESNext we should use .js extension for relative imports when compiled, or wait: let's verify if esbuild/tsconfig needs .js or if we can omit it. In ES modules, esbuild resolves absolute/relative imports, but Node.js requires extensions in compiled ES modules. The build script builds with esbuild: `esbuild server/index.ts --platform=node --packages=external --bundle --format=esm`. Since it's bundling, we can use "./routes/auth" or "./routes/auth.js" (or just import from `./routes/auth` because esbuild resolves it). Wait, to be safe with typescript, "./routes/auth" is fine. Let's see if we should import it as "./routes/auth" (which is standard TS). Yes.
+import { connectToDatabase } from "./db.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,9 +33,17 @@ app.get("*", (_req, res) => {
 if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
   const server = createServer(app);
   const port = process.env.PORT || 3000;
-  server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
-  });
+  
+  connectToDatabase()
+    .then(() => {
+      server.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}/`);
+      });
+    })
+    .catch((err) => {
+      console.error("Critical error starting server:", err);
+      process.exit(1);
+    });
 }
 
 export default app;

@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     const { name, email, password } = parseResult.data;
 
     // Check if user exists
-    const existingUser = db.getUserByEmail(email);
+    const existingUser = await db.getUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({
         message: "Email sudah terdaftar.",
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     // Save user with isVerified: false
-    const newUser = db.createUser({
+    const newUser = await db.createUser({
       name,
       email,
       passwordHash,
@@ -71,7 +71,7 @@ router.get("/verify-email", async (req, res) => {
       return res.status(400).json({ message: "Token verifikasi tidak valid." });
     }
 
-    const user = db.getUserByVerificationToken(token);
+    const user = await db.getUserByVerificationToken(token);
     if (!user) {
       return res.status(400).json({
         message: "Token verifikasi tidak valid atau telah kedaluwarsa.",
@@ -79,7 +79,7 @@ router.get("/verify-email", async (req, res) => {
     }
 
     // Mark user as verified and clear the token
-    db.updateUser(user.id, {
+    await db.updateUser(user.id, {
       isVerified: true,
       verificationToken: null,
     });
@@ -107,7 +107,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = parseResult.data;
 
     // Find user
-    const user = db.getUserByEmail(email);
+    const user = await db.getUserByEmail(email);
     if (!user) {
       return res.status(401).json({ message: "Email atau password salah." });
     }
