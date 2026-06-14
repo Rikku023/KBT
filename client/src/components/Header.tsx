@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'wouter';
 
 /**
  * Header/Navigation Component
@@ -45,12 +46,16 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="px-6 py-2 text-[#06B6D4] font-semibold hover:text-[#0891B2] transition-colors">
-              Login
-            </button>
-            <button className="px-6 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] transition-colors">
-              Coba Gratis
-            </button>
+            <Link href="/login">
+              <button className="px-6 py-2 text-[#06B6D4] font-semibold hover:text-[#0891B2] cursor-pointer transition-colors">
+                Login
+              </button>
+            </Link>
+            <Link href="/register">
+              <button className="px-6 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                Coba Gratis
+              </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -79,12 +84,16 @@ export default function Header() {
               </a>
             ))}
             <div className="px-4 py-4 border-t border-[#E2E8F0] space-y-2">
-              <button className="w-full px-4 py-2 text-[#06B6D4] font-semibold border border-[#06B6D4] rounded-lg hover:bg-[#06B6D4] hover:text-white transition-colors">
-                Login
-              </button>
-              <button className="w-full px-4 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] transition-colors">
-                Coba Gratis
-              </button>
+              <Link href="/login">
+                <button className="w-full px-4 py-2 text-[#06B6D4] font-semibold border border-[#06B6D4] rounded-lg hover:bg-[#06B6D4] hover:text-white cursor-pointer transition-colors">
+                  Login
+                </button>
+              </Link>
+              <Link href="/register">
+                <button className="w-full px-4 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                  Coba Gratis
+                </button>
+              </Link>
             </div>
           </div>
         )}
