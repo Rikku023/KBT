@@ -14,9 +14,14 @@ export default function Login() {
   
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("verified") === "true") {
+    const verified = params.get("verified");
+    const status = params.get("status");
+
+    if (verified === "true") {
       toast.success("Email Anda berhasil diverifikasi! Silakan login.");
-      // Clean up URL query parameters so toast doesn't re-trigger on page refreshes
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (status === "already_verified") {
+      toast.success("Akun Anda sudah aktif dan terverifikasi sebelumnya. Silakan langsung masuk!");
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);

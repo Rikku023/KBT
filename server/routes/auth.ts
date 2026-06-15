@@ -78,16 +78,19 @@ router.get("/verify_email", async (req, res) => {
       });
     }
 
-    // Mark user as verified and clear the token
-    await db.updateUser(user.id, {
-      isVerified: true,
-      verificationToken: null,
-    });
-
-    // Redirect user to frontend verification status page
     const appUrl = process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}` 
       : (process.env.APP_URL || "http://localhost:5173");
+
+    if (user.isVerified) {
+      return res.redirect(`${appUrl}/login?status=already_verified`);
+    }
+
+    // Mark user as verified, keep token for double-click checks
+    await db.updateUser(user.id, {
+      isVerified: true,
+    });
+
     return res.redirect(`${appUrl}/login?verified=true`);
   } catch (error) {
     console.error("Verification error:", error);
