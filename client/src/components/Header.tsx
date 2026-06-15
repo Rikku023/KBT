@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Link } from 'wouter';
+import { useState, useEffect } from 'react';
+import { Menu, X, LogOut } from 'lucide-react';
+import { Link, useLocation } from 'wouter';
 
 /**
  * Header/Navigation Component
@@ -12,6 +12,30 @@ import { Link } from 'wouter';
  */
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [, setLocation] = useLocation();
+
+  // Read login state from localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("auth_token"));
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsLoggedIn(!!localStorage.getItem("auth_token"));
+    };
+    window.addEventListener("storage", checkAuth);
+    window.addEventListener("local-storage-change", checkAuth);
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("local-storage-change", checkAuth);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    window.dispatchEvent(new Event("local-storage-change"));
+    setLocation("/");
+  };
 
   const navLinks = [
     { label: 'Solusi', href: '#solutions' },
@@ -46,16 +70,35 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/login">
-              <button className="px-6 py-2 text-[#06B6D4] font-semibold hover:text-[#0891B2] cursor-pointer transition-colors">
-                Login
-              </button>
-            </Link>
-            <Link href="/register">
-              <button className="px-6 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
-                Coba Gratis
-              </button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link href="/dashboard">
+                  <button className="px-6 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                    Ke Dashboard
+                  </button>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="px-6 py-2 text-rose-500 font-semibold hover:text-rose-600 cursor-pointer transition-colors flex items-center gap-1.5"
+                >
+                  <LogOut size={16} />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <button className="px-6 py-2 text-[#06B6D4] font-semibold hover:text-[#0891B2] cursor-pointer transition-colors">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="px-6 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                    Coba Gratis
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -84,16 +127,35 @@ export default function Header() {
               </a>
             ))}
             <div className="px-4 py-4 border-t border-[#E2E8F0] space-y-2">
-              <Link href="/login">
-                <button className="w-full px-4 py-2 text-[#06B6D4] font-semibold border border-[#06B6D4] rounded-lg hover:bg-[#06B6D4] hover:text-white cursor-pointer transition-colors">
-                  Login
-                </button>
-              </Link>
-              <Link href="/register">
-                <button className="w-full px-4 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
-                  Coba Gratis
-                </button>
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link href="/dashboard">
+                    <button className="w-full px-4 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                      Ke Dashboard
+                    </button>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-2 text-rose-500 font-semibold border border-rose-200 rounded-lg hover:bg-rose-500 hover:text-white cursor-pointer transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <LogOut size={16} />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <button className="w-full px-4 py-2 text-[#06B6D4] font-semibold border border-[#06B6D4] rounded-lg hover:bg-[#06B6D4] hover:text-white cursor-pointer transition-colors">
+                      Login
+                    </button>
+                  </Link>
+                  <Link href="/register">
+                    <button className="w-full px-4 py-2 bg-[#06B6D4] text-white font-semibold rounded-lg hover:bg-[#0891B2] cursor-pointer transition-colors">
+                      Coba Gratis
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

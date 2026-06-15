@@ -74,6 +74,7 @@ export default function Login() {
       // Store JWT token in localStorage
       localStorage.setItem("auth_token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      window.dispatchEvent(new Event("local-storage-change"));
 
       setTimeout(() => {
         setLocation("/"); // Redirect to dashboard / landing page
