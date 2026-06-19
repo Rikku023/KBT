@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Mail, Phone, MapPin, Send, ArrowLeft, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowLeft, Clock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export default function Contact() {
@@ -26,11 +24,12 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    phone: "",
+    need: "",
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -42,8 +41,8 @@ export default function Contact() {
     // Mock API call
     setTimeout(() => {
       setLoading(false);
-      toast.success("Pesan Anda berhasil dikirim! Tim kami akan menghubungi Anda segera.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      toast.success("Requirement Anda berhasil dikirim! Tim kami akan menghubungi Anda segera.");
+      setFormData({ name: "", email: "", phone: "", need: "", message: "" });
     }, 1500);
   };
 
@@ -60,181 +59,205 @@ export default function Contact() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header />
 
-      <main className="flex-grow py-16">
+      <main className="flex-grow py-16 flex items-center">
         <div className="container mx-auto px-4 max-w-6xl">
-          {/* Header Title Section */}
-          <div className="mb-12">
+          {/* Back Button */}
+          <div className="mb-8">
             <button
               onClick={() => setLocation("/")}
-              className="flex items-center gap-2 text-[#64748B] hover:text-[#06B6D4] transition-colors text-sm font-medium font-body mb-4 cursor-pointer"
+              className="flex items-center gap-2 text-[#64748B] hover:text-[#06B6D4] transition-colors text-sm font-medium font-body cursor-pointer"
             >
               <ArrowLeft size={16} />
               Kembali ke Beranda
             </button>
-            <h1 className="text-4xl font-extrabold text-[#0F172A] tracking-tight font-display mb-3">
-              Hubungi Tim Kami
-            </h1>
-            <p className="text-[#64748B] max-w-2xl font-body text-base">
-              Kami di OptimaData siap membantu Anda menyempurnakan alur supply chain, analitik penjualan, dan optimasi inventory UMKM Anda.
-            </p>
           </div>
 
-          {/* Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Info Card (Left) */}
-            <div className="bg-[#0F172A] text-white p-8 rounded-2xl shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[450px]">
-              {/* Background ambient glow */}
-              <div className="absolute top-[-20%] right-[-20%] w-[250px] h-[250px] rounded-full bg-cyan-500/10 blur-[80px] pointer-events-none" />
-              <div className="absolute bottom-[-20%] left-[-20%] w-[250px] h-[250px] rounded-full bg-teal-500/10 blur-[80px] pointer-events-none" />
+          {/* Redesigned Grid Layout matching template */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            {/* Left Content (Info & Slogan - spans 5 columns) */}
+            <div className="lg:col-span-5 space-y-10">
+              <div className="space-y-4">
+                <h1 className="text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight font-display leading-tight">
+                  Let’s Make It Happen
+                </h1>
+                <p className="text-[#64748B] font-body text-base leading-relaxed">
+                  Diskusikan bagaimana kami dapat membantu UMKM Anda menghentikan kebocoran modal dan melejitkan profit lewat data.
+                </p>
+              </div>
 
-              <div className="z-10 space-y-6">
-                <div>
-                  <h3 className="text-xl font-bold font-display mb-2">Informasi Kontak</h3>
-                  <p className="text-slate-400 text-sm font-body">
-                    Pilih saluran komunikasi yang paling nyaman bagi Anda.
-                  </p>
+              {/* Contact Details List */}
+              <div className="space-y-8">
+                {/* Address Business */}
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-full bg-[#0F172A] flex items-center justify-center text-cyan-400 shrink-0 shadow-md">
+                    <MapPin size={20} />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="text-lg font-bold text-[#0F172A] font-display">Address Business</h4>
+                    <p className="text-sm text-[#64748B] font-body leading-relaxed">
+                      Departemen Statistika, Institut Teknologi Sepuluh Nopember (ITS), Kampus Sukolilo, Surabaya, Jawa Timur, Indonesia.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
-                      <Mail size={20} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-body">Kirim Email</p>
-                      <a href="mailto:support@optimadata.id" className="text-sm font-semibold hover:text-cyan-400 transition-colors font-body">
-                        support@optimadata.id
-                      </a>
-                    </div>
+                {/* Contact With Us */}
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-full bg-[#0F172A] flex items-center justify-center text-cyan-400 shrink-0 shadow-md">
+                    <Phone size={20} />
                   </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
-                      <Phone size={20} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-body">Telepon / WhatsApp</p>
-                      <a href="tel:+6281234567890" className="text-sm font-semibold hover:text-cyan-400 transition-colors font-body">
-                        +62 812-3456-7890
-                      </a>
-                    </div>
+                  <div className="space-y-1">
+                    <h4 className="text-lg font-bold text-[#0F172A] font-display">Contact With Us</h4>
+                    <p className="text-sm text-[#64748B] font-body">
+                      Call Us: <span className="font-semibold text-[#0F172A]">+62 812-3456-7890</span>
+                    </p>
+                    <p className="text-sm text-[#64748B] font-body">
+                      Send mail: <a href="mailto:OptimaDataKBT@gmail.com" className="font-semibold text-[#06B6D4] hover:underline">OptimaDataKBT@gmail.com</a>
+                    </p>
                   </div>
+                </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
-                      <MapPin size={20} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-body">Kantor Kami</p>
-                      <p className="text-sm font-semibold font-body text-slate-200">
-                        Gedung Technopreneur Lt. 3, Jl. Kebon Jeruk No. 23, Jakarta Barat, Indonesia
-                      </p>
-                    </div>
+                {/* Response Time (Waktu Respon) */}
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-full bg-[#0F172A] flex items-center justify-center text-cyan-400 shrink-0 shadow-md">
+                    <Clock size={20} />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="text-lg font-bold text-[#0F172A] font-display">Waktu Respon</h4>
+                    <p className="text-sm text-[#64748B] font-body">
+                      Senin - Jumat: <span className="font-semibold text-[#0F172A]">09.00 - 18.00 WIB</span>
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="z-10 mt-8 pt-6 border-t border-slate-800 flex items-center gap-3">
-                <Clock className="text-cyan-400" size={20} />
-                <div>
-                  <p className="text-xs text-slate-400 font-body">Waktu Respon</p>
-                  <p className="text-xs font-semibold text-slate-200 font-body">Senin - Jumat: 09.00 - 18.00 WIB</p>
-                </div>
+              {/* Social Links matching template */}
+              <div className="pt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-[#64748B] font-body">
+                <a href="#facebook" className="hover:text-[#06B6D4] transition-colors">Facebook</a>
+                <a href="#twitter" className="hover:text-[#06B6D4] transition-colors">Twitter / X</a>
+                <a href="#instagram" className="hover:text-[#06B6D4] transition-colors">Instagrams</a>
+                <a href="#skype" className="hover:text-[#06B6D4] transition-colors">Skype</a>
+                <a href="#telegram" className="hover:text-[#06B6D4] transition-colors">Telegrams</a>
               </div>
             </div>
 
-            {/* Form Card (Right, Spans 2) */}
-            <div className="lg:col-span-2 bg-white border border-[#E2E8F0] p-8 rounded-2xl shadow-sm z-10">
-              <h3 className="text-xl font-bold text-[#0F172A] font-display mb-6">Kirimkan Pesan Anda</h3>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-[#0F172A] font-body text-sm font-semibold">
-                      Nama Lengkap
-                    </Label>
+            {/* Right Content (Form - spans 7 columns) */}
+            <div className="lg:col-span-7 bg-white border border-[#E2E8F0] p-8 lg:p-10 rounded-3xl shadow-sm">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                
+                {/* Row 1: Full Name & Email Address */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="relative">
                     <Input
                       id="name"
                       name="name"
                       type="text"
-                      placeholder="Masukkan nama lengkap"
+                      placeholder="*Full Name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="border-[#E2E8F0] focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] transition-all font-body"
+                      className="h-12 px-5 bg-slate-50 border border-slate-200/80 focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] rounded-xl transition-all font-body border-none"
                       disabled={loading}
                       required
                     />
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-[#0F172A] font-body text-sm font-semibold">
-                      Email UMKM / Bisnis
-                    </Label>
+                  <div className="relative">
                     <Input
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="nama@umkm.com"
+                      placeholder="*Email Address"
                       value={formData.email}
                       onChange={handleChange}
-                      className="border-[#E2E8F0] focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] transition-all font-body"
+                      className="h-12 px-5 bg-slate-50 border border-slate-200/80 focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] rounded-xl transition-all font-body border-none"
                       disabled={loading}
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="subject" className="text-[#0F172A] font-body text-sm font-semibold">
-                    Subjek Pertanyaan
-                  </Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    placeholder="Contoh: Integrasi Sistem Kasir / Rekomendasi Restock"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="border-[#E2E8F0] focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] transition-all font-body"
-                    disabled={loading}
-                    required
-                  />
+                {/* Row 2: Phone Number & Needs Dropdown */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="relative">
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="*Phone Number"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="h-12 px-5 bg-slate-50 border border-slate-200/80 focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] rounded-xl transition-all font-body border-none"
+                      disabled={loading}
+                      required
+                    />
+                  </div>
+                  <div className="relative">
+                    <select
+                      id="need"
+                      name="need"
+                      value={formData.need}
+                      onChange={handleChange}
+                      className="h-12 w-full px-5 bg-slate-50 border-none text-[#0F172A] focus:ring-1 focus:ring-[#06B6D4] rounded-xl transition-all font-body outline-none appearance-none cursor-pointer pr-10"
+                      disabled={loading}
+                      required
+                    >
+                      <option value="" disabled hidden>
+                        *What are your needs?
+                      </option>
+                      <option value="Analisis & Identifikasi Produk Berpasangan">
+                        Analisis & Identifikasi Produk Berpasangan
+                      </option>
+                      <option value="Rekomendasi Bundling Produk Profitable">
+                        Rekomendasi Bundling Produk Profitable
+                      </option>
+                      <option value="Strategi Optimasi Inventaris (Dead Stock)">
+                        Strategi Optimasi Inventaris (Dead Stock)
+                      </option>
+                      <option value="Konsultasi Layanan Kustom UMKM">
+                        Konsultasi Layanan Kustom UMKM
+                      </option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-[#0F172A] font-body text-sm font-semibold">
-                    Pesan Detail
-                  </Label>
-                  <Textarea
+                {/* Row 3: Write Message Textarea */}
+                <div className="relative">
+                  <textarea
                     id="message"
                     name="message"
-                    rows={5}
-                    placeholder="Tuliskan tantangan inventory bisnis Anda atau pertanyaan yang ingin Anda ajukan kepada tim kami..."
+                    rows={6}
+                    placeholder="Write Messeage...."
                     value={formData.message}
                     onChange={handleChange}
-                    className="border-[#E2E8F0] focus:border-[#06B6D4] text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] transition-all font-body"
+                    className="w-full p-5 bg-slate-50 border-none text-[#0F172A] placeholder-slate-400 focus:ring-1 focus:ring-[#06B6D4] rounded-2xl transition-all font-body outline-none resize-none"
                     disabled={loading}
                     required
                   />
                 </div>
 
-                <div className="pt-2">
+                {/* Row 4: Submit Button (Left-aligned or Right-aligned as requested, let's put it on the right bottom with amazing styles) */}
+                <div className="flex justify-end pt-2">
                   <Button
                     type="submit"
-                    className="w-full md:w-auto px-8 py-5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold shadow-md shadow-cyan-100 dark:shadow-none transition-colors flex items-center justify-center gap-2 cursor-pointer font-body"
+                    className="px-8 py-6 bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold rounded-xl shadow-lg hover:shadow-[#06B6D4]/20 active:translate-y-0.5 hover:-translate-y-0.5 transition-all duration-200 border-l-4 border-[#06B6D4] flex items-center justify-center gap-2 cursor-pointer font-body text-base"
                     disabled={loading}
                   >
                     {loading ? (
-                      "Mengirim..."
+                      "Submitting..."
                     ) : (
                       <>
-                        <Send size={16} />
-                        Kirim Pesan
+                        Submit Require <span className="text-cyan-400">➤</span>
                       </>
                     )}
                   </Button>
                 </div>
               </form>
             </div>
+            
           </div>
         </div>
       </main>
