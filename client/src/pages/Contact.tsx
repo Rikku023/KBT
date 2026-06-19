@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function Contact() {
   const [, setLocation] = useLocation();
@@ -34,16 +35,28 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Mock API call
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Requirement Anda berhasil dikirim! Tim kami akan menghubungi Anda segera.");
+    try {
+      const response = await axios.post("/api/contact", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        needs: formData.need,
+        message: formData.message,
+      });
+
+      toast.success(response.data.message || "Pesan Anda berhasil dikirim! Tim kami akan segera menghubungi Anda.");
       setFormData({ name: "", email: "", phone: "", need: "", message: "" });
-    }, 1500);
+    } catch (error: any) {
+      console.error("Failed to send contact inquiry:", error);
+      const errMessage = error.response?.data?.message || "Gagal mengirim pesan. Silakan coba beberapa saat lagi.";
+      toast.error(errMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Prevent flashing content if not verified
@@ -247,7 +260,7 @@ export default function Contact() {
                     disabled={loading}
                   >
                     {loading ? (
-                      "Submitting..."
+                      "Sending..."
                     ) : (
                       <>
                         Submit Require <span className="text-cyan-400">➤</span>

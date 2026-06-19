@@ -3,6 +3,7 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRouter from "./routes/auth.js";
+import contactRouter from "./routes/contact.js";
 import { connectToDatabase } from "./db.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,6 +16,9 @@ app.use(express.json());
 
 // Mount authentication routes
 app.use("/api/auth", authRouter);
+
+// Mount contact routes
+app.use("/api/contact", contactRouter);
 
 // Serve static files from dist/public in production
 const staticPath =
