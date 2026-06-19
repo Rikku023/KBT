@@ -1,4 +1,5 @@
 import { BarChart3, Zap, ShoppingCart } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Solution Section Component
@@ -9,6 +10,7 @@ import { BarChart3, Zap, ShoppingCart } from 'lucide-react';
  * - Teal accent untuk highlight
  */
 export default function SolutionSection() {
+  const [, setLocation] = useLocation();
   const solutions = [
     {
       icon: BarChart3,
@@ -144,7 +146,17 @@ export default function SolutionSection() {
           <p className="text-[#64748B] mb-6 font-body">
             Ingin tahu lebih detail tentang setiap layanan?
           </p>
-          <button className="btn-primary">
+          <button
+            onClick={() => {
+              const token = localStorage.getItem("auth_token");
+              if (token) {
+                setLocation("/contact");
+              } else {
+                setLocation("/login?redirectTo=/contact");
+              }
+            }}
+            className="btn-primary"
+          >
             Hubungi Tim Kami
           </button>
         </div>

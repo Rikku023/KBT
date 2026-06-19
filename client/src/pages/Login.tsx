@@ -76,8 +76,16 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       window.dispatchEvent(new Event("local-storage-change"));
 
+      // Read query parameters to check if there is a redirect path
+      const params = new URLSearchParams(window.location.search);
+      const redirectTo = params.get("redirectTo");
+
       setTimeout(() => {
-        setLocation("/"); // Redirect to dashboard / landing page
+        if (redirectTo) {
+          setLocation(redirectTo);
+        } else {
+          setLocation("/"); // Redirect to dashboard / landing page
+        }
       }, 1500);
     } catch (error: any) {
       console.error("Login failed:", error);
