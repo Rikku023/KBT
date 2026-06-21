@@ -142,8 +142,8 @@ export default function SolutionSection() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-20 text-center">
-          <p className="text-[#64748B] mb-6 font-body">
+        <div className="mt-20 flex flex-col items-center justify-center gap-4">
+          <p className="text-[#64748B] font-body text-lg">
             Ingin tahu lebih detail tentang setiap layanan?
           </p>
           <button
@@ -155,9 +155,9 @@ export default function SolutionSection() {
                 setLocation("/login?redirectTo=/contact");
               }
             }}
-            className="btn-primary"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:shadow-[#06B6D4]/30 hover:scale-105 active:scale-95 transition-all duration-300 ease-out cursor-pointer font-body"
           >
-            Hubungi Tim Kami
+            Hubungi Tim Kami <span className="text-lg leading-none">→</span>
           </button>
         </div>
       </div>
