@@ -65,7 +65,7 @@ export default function About() {
                   <Users size={20} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#0F172A] font-display">Kelompok Kelompok 6</h2>
+                  <h2 className="text-2xl font-bold text-[#0F172A] font-display">Kelompok 6</h2>
                   <p className="text-xs text-[#64748B] font-body font-semibold">
                     Kewirausahaan Berbasis Teknologi (KBT)
                   </p>

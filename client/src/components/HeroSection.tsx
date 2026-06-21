@@ -38,19 +38,6 @@ export default function HeroSection() {
               >
                 About Us
               </button>
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("auth_token");
-                  if (token) {
-                    setLocation("/contact");
-                  } else {
-                    setLocation("/login?redirectTo=/contact");
-                  }
-                }}
-                className="px-8 py-3.5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:shadow-[#06B6D4]/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer font-body flex items-center justify-center gap-1.5"
-              >
-                Contact Us <span className="text-lg leading-none">→</span>
-              </button>
             </div>
 
             {/* Trust Indicators */}

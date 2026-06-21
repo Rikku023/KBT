@@ -38,9 +38,9 @@ export default function Header() {
   };
 
   const navLinks = [
-    { label: 'Solusi', href: '#solutions' },
-    { label: 'Case Study', href: '#case-study' },
-    { label: 'Blog', href: '#blog' },
+    { label: 'Solusi', href: '/#solutions' },
+    { label: 'Case Study', href: '/#case-study' },
+    { label: 'Blog', href: '/#blog' },
   ];
 
   return (
@@ -48,12 +48,14 @@ export default function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#0891B2] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">O</span>
+          <Link href="/">
+            <div className="flex items-center gap-2 cursor-pointer">
+              <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#0891B2] rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">O</span>
+              </div>
+              <span className="text-xl font-bold text-[#0F172A] font-display">OptimaData</span>
             </div>
-            <span className="text-xl font-bold text-[#0F172A] font-display">OptimaData</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
