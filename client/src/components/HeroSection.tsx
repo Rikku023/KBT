@@ -1,4 +1,5 @@
 import { ArrowRight, TrendingUp } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Hero Section Component
@@ -9,6 +10,7 @@ import { ArrowRight, TrendingUp } from 'lucide-react';
  * - Animated data visualization element
  */
 export default function HeroSection() {
+  const [, setLocation] = useLocation();
   return (
     <section className="min-h-screen flex items-center bg-white pt-20 pb-20">
       <div className="container mx-auto">
@@ -30,12 +32,24 @@ export default function HeroSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button className="btn-primary flex items-center justify-center gap-2 group">
-                Coba Audit Gratis
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <button
+                onClick={() => setLocation("/about")}
+                className="px-8 py-3.5 bg-[#0F172A] hover:bg-slate-800 text-white font-semibold rounded-full shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer font-body flex items-center justify-center gap-1.5"
+              >
+                About Us
               </button>
-              <button className="btn-secondary flex items-center justify-center gap-2">
-                Lihat Demo
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("auth_token");
+                  if (token) {
+                    setLocation("/contact");
+                  } else {
+                    setLocation("/login?redirectTo=/contact");
+                  }
+                }}
+                className="px-8 py-3.5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:shadow-[#06B6D4]/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer font-body flex items-center justify-center gap-1.5"
+              >
+                Contact Us <span className="text-lg leading-none">→</span>
               </button>
             </div>
 
