@@ -1,5 +1,4 @@
 import { BarChart3, Zap, ShoppingCart } from 'lucide-react';
-import { useLocation } from 'wouter';
 
 /**
  * Solution Section Component
@@ -10,7 +9,6 @@ import { useLocation } from 'wouter';
  * - Teal accent untuk highlight
  */
 export default function SolutionSection() {
-  const [, setLocation] = useLocation();
   const solutions = [
     {
       icon: BarChart3,
@@ -141,25 +139,7 @@ export default function SolutionSection() {
           })}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 flex flex-col items-center justify-center gap-4">
-          <p className="text-[#64748B] font-body text-lg">
-            Ingin tahu lebih detail tentang setiap layanan?
-          </p>
-          <button
-            onClick={() => {
-              const token = localStorage.getItem("auth_token");
-              if (token) {
-                setLocation("/contact");
-              } else {
-                setLocation("/login?redirectTo=/contact");
-              }
-            }}
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:shadow-[#06B6D4]/30 hover:scale-105 active:scale-95 transition-all duration-300 ease-out cursor-pointer font-body"
-          >
-            Hubungi Tim Kami <span className="text-lg leading-none">→</span>
-          </button>
-        </div>
+
       </div>
 
       {/* Animation Keyframes */}
