@@ -10,6 +10,7 @@ import Register from "@/pages/Register";
 import VerifyEmail from "@/pages/VerifyEmail";
 import Contact from "@/pages/Contact";
 import About from "@/pages/About";
+import Dashboard from "@/pages/Dashboard";
 
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path={"/verify_email"} component={VerifyEmail} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/about"} component={About} />
+      <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
