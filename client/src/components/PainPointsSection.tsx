@@ -1,4 +1,5 @@
 import { AlertCircle, TrendingDown, Package } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 /**
  * Pain Points Section Component
@@ -9,6 +10,8 @@ import { AlertCircle, TrendingDown, Package } from 'lucide-react';
  * - Smooth animations on scroll
  */
 export default function PainPointsSection() {
+  const [, setLocation] = useLocation();
+  
   const painPoints = [
     {
       icon: Package,
@@ -35,6 +38,15 @@ export default function PainPointsSection() {
       iconColor: 'text-blue-500',
     },
   ];
+
+  const handleConsultationClick = () => {
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      setLocation("/contact?selected=konsultasi");
+    } else {
+      setLocation(`/login?redirectTo=${encodeURIComponent('/contact?selected=konsultasi')}`);
+    }
+  };
 
   return (
     <section className="py-20 bg-white">
@@ -94,7 +106,10 @@ export default function PainPointsSection() {
           <p className="text-lg mb-4 font-body">
             Apakah Anda menghadapi salah satu masalah ini?
           </p>
-          <button className="px-8 py-3 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-lg transition-colors duration-200">
+          <button
+            onClick={handleConsultationClick}
+            className="px-8 py-3.5 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:shadow-[#06B6D4]/30 hover:scale-105 active:scale-95 transition-all duration-300 ease-out cursor-pointer font-body animate-pulse-soft"
+          >
             Konsultasi Gratis Sekarang
           </button>
         </div>
@@ -111,6 +126,17 @@ export default function PainPointsSection() {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+        @keyframes pulse-soft {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+          }
+          50% {
+            box-shadow: 0 0 0 8px rgba(6, 182, 212, 0);
+          }
+        }
+        .animate-pulse-soft {
+          animation: pulse-soft 2s infinite;
         }
       `}</style>
     </section>

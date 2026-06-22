@@ -15,7 +15,8 @@ export default function Contact() {
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
     if (!token) {
-      setLocation("/login?redirectTo=/contact");
+      const currentQuery = window.location.search;
+      setLocation(`/login?redirectTo=${encodeURIComponent('/contact' + currentQuery)}`);
     } else {
       setTokenChecked(true);
     }
@@ -29,6 +30,14 @@ export default function Contact() {
     need: "",
     message: "",
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const selected = params.get("selected");
+    if (selected === "konsultasi") {
+      setFormData((prev) => ({ ...prev, need: "Konsultasi Layanan Kustom UMKM" }));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
